@@ -1,0 +1,173 @@
+{
+  "Files": [
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\bin\\Debug\\net9.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\obj\\Debug\\net9.0\\scopedcss\\projectbundle\\MyAntDesignApp.Client.bundle.scp.css",
+      "PackagePath": "staticwebassets\\MyAntDesignApp.Client.ogk0r8sbbp.bundle.scp.css"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\appsettings.Development.json",
+      "PackagePath": "staticwebassets\\appsettings.Development.json"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\appsettings.json",
+      "PackagePath": "staticwebassets\\appsettings.json"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\assets\\403.svg",
+      "PackagePath": "staticwebassets\\assets\\403.svg"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\assets\\logo.svg",
+      "PackagePath": "staticwebassets\\assets\\logo.svg"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\css\\morning.css",
+      "PackagePath": "staticwebassets\\css\\morning.css"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\css\\night.css",
+      "PackagePath": "staticwebassets\\css\\night.css"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\Moon.png",
+      "PackagePath": "staticwebassets\\img\\Moon.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Andy.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Andy.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Chu.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Chu.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Cindy.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Cindy.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Eileen.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Eileen.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Jane.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Jane.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Jerry.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Jerry.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Ray.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Ray.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Rocky.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Rocky.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Rona.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Rona.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Sandy.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Sandy.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\avatar\\Sharon.png",
+      "PackagePath": "staticwebassets\\img\\avatar\\Sharon.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\bottle.png",
+      "PackagePath": "staticwebassets\\img\\bottle.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\logo-morning.png",
+      "PackagePath": "staticwebassets\\img\\logo-morning.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\logo-night.png",
+      "PackagePath": "staticwebassets\\img\\logo-night.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\moon1.png",
+      "PackagePath": "staticwebassets\\img\\moon1.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\morning.jpg",
+      "PackagePath": "staticwebassets\\img\\morning.jpg"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\night.jpg",
+      "PackagePath": "staticwebassets\\img\\night.jpg"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\nightglass.png",
+      "PackagePath": "staticwebassets\\img\\nightglass.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\sun.png",
+      "PackagePath": "staticwebassets\\img\\sun.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\sun1.png",
+      "PackagePath": "staticwebassets\\img\\sun1.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\sungalss.png",
+      "PackagePath": "staticwebassets\\img\\sungalss.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\img\\sunglass1.png",
+      "PackagePath": "staticwebassets\\img\\sunglass1.png"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\js\\cloud.js",
+      "PackagePath": "staticwebassets\\js\\cloud.js"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\js\\start.js",
+      "PackagePath": "staticwebassets\\js\\start.js"
+    },
+    {
+      "Id": "c:\\Users\\User\\Desktop\\blazor-samples\\Final\\MyAntDesignApp\\src\\MyAntDesignApp.Client\\wwwroot\\pro_icon.svg",
+      "PackagePath": "staticwebassets\\pro_icon.svg"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.MyAntDesignApp.Client.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.MyAntDesignApp.Client.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.MyAntDesignApp.Client.props",
+      "PackagePath": "build\\MyAntDesignApp.Client.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.MyAntDesignApp.Client.props",
+      "PackagePath": "buildMultiTargeting\\MyAntDesignApp.Client.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.MyAntDesignApp.Client.props",
+      "PackagePath": "buildTransitive\\MyAntDesignApp.Client.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
