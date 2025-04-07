@@ -242,11 +242,13 @@ namespace MyAntDesignApp.Pages.Components
             model.CreateAt = user.UserId;
             model.CreateDate = DateTime.Now;
             var resMomory = await ApiVisitService.QueryCommon<Memorys, Memorys>($"Memory", model);
-            await ProcessDate(selectedValue);
             await Message.Success("又多一塊回憶碎片囉～");
-            model = new();
+            _commentId = null;
             _submitting = false;
             _visible = false;
+            await ProcessDate(model.MemoryDate);
+            model = new();
+            StateHasChanged();
         }
 
         private void OnFinishFailed(EditContext editContext)
@@ -367,7 +369,7 @@ namespace MyAntDesignApp.Pages.Components
                 if (item.ReplyId == null)
                 {
                     // if reply, add reply comment in comment
-                    var replies = datas.Where(c => c.ReplyId == item.Id).ToList(); // 找到所有回復該留言的
+                    var replies = datas.Where(c => c.ReplyId == item.Id).OrderBy(c => c.CreateDate).ToList(); // 找到所有回復該留言的
                     List<DetailData> detailData = new List<DetailData>();
 
                     foreach (var reply in replies)
@@ -395,6 +397,7 @@ namespace MyAntDesignApp.Pages.Components
                     });
                 }
             }
+            comments = comments.OrderBy(c => c.CreateDate).ToList();
             await InvokeAsync(StateHasChanged);
 
         }
@@ -460,6 +463,12 @@ namespace MyAntDesignApp.Pages.Components
         private async Task onSubmit()
         {
             submitting = true;
+            if (string.IsNullOrEmpty(_value))
+            {
+                await Message.Error("你比手語嗎?");
+                submitting = false;
+                return;
+            }
             await Task.Delay(1000);
             var newComment = new Comments();
             newComment.ReplyId = _commentId;
@@ -472,6 +481,8 @@ namespace MyAntDesignApp.Pages.Components
             var resImg = await ApiVisitService.QueryCommon<Comments, Comments>($"Comment", newComment);
             // 重新獲取留言
             var resCommont = await ApiVisitService.GetAsync<List<Comments>>($"Comment/{_memoryId}");
+            await Js.InvokeVoidAsync("highlightReply", $"reply-btn-{_commentId}");
+            _commentId = null;
             await ProcessComment(resCommont.Data);
             // comments.Add(new Data()
             // {
@@ -513,23 +524,34 @@ namespace MyAntDesignApp.Pages.Components
 
         private async void CommentOk()
         {
-            if (_commentModalOK == "Edit")
+            try
             {
-                adjustComment.Comment = _commentEdit;
-                adjustComment.UpdateAt = userId;
-                adjustComment.UpdateDate = DateTime.Now;
-                var updateComment = await ApiVisitService.PutAsync<Comments, Comments>($"Comment", adjustComment);
+                if (_commentModalOK == "Edit")
+                {
+                    adjustComment.Comment = _commentEdit;
+                    adjustComment.UpdateAt = userId;
+                    adjustComment.UpdateDate = DateTime.Now;
+                    var updateComment = await ApiVisitService.PutAsync<Comments, Comments>($"Comment", adjustComment);
+                }
+                else
+                {
+                    var updateComment = ApiVisitService.DeleteAsync($"Comment/{adjustComment.Id}/{userId}"); ;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var updateComment = ApiVisitService.DeleteAsync($"Comment/{adjustComment.Id}/{userId}");;
+                await Message.Error($"留言失敗，請稍後再試！");
             }
-            // 重新獲取留言
-            var resCommont = await ApiVisitService.GetAsync<List<Comments>>($"Comment/{_memoryId}");
-            await ProcessComment(resCommont.Data);
-            _commentVisible = false;
-            await Message.Success($"{_commentModal} success.");
-            await InvokeAsync(StateHasChanged);
+            finally
+            {
+                // 重新獲取留言
+                var resCommont = await ApiVisitService.GetAsync<List<Comments>>($"Comment/{_memoryId}");
+                await ProcessComment(resCommont.Data);
+                _commentId = null;
+                _commentVisible = false;
+
+                await Message.Success($"{_commentModal} success.");
+            }
         }
         private void CommentCancel()
         {
