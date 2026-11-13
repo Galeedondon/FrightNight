@@ -1,0 +1,17 @@
+@using MyAntDesignApp.CommonService
+<span class="avatar portrait-avatar @(Small ? "small" : "") @(AvatarCatalog.IsOriginal(Account) ? "original-portrait" : "generated-portrait")" role="img" aria-label="@($"{Account} 的頭像")">
+    @if (!failed) { <img @key="source" src="@source" alt="" loading="lazy" decoding="async" @onerror="ImageFailed" /> }
+    else { <span>@(string.IsNullOrEmpty(Account) ? "F" : Account[..1].ToUpperInvariant())</span> }
+</span>
+@code {
+    [Parameter] public string Account { get; set; } = "";
+    [Parameter] public bool Small { get; set; }
+    private string source = "";
+    private bool failed;
+    protected override void OnParametersSet()
+    {
+        var next = AvatarCatalog.Image(Account);
+        if (source != next) { source = next; failed = false; }
+    }
+    private void ImageFailed() => failed = true;
+}

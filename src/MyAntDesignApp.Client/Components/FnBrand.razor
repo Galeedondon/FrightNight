@@ -1,0 +1,10 @@
+@using MyAntDesignApp.CommonService
+<a class="brand @Class" href="@Href" aria-label="Friday Night 回憶日曆">
+    <img class="brand-original-logo" src="@Scene.Logo" alt="Friday Night 原創鯨鯊 Logo" width="60" height="60" />
+    <span>friday night<span class="brand-sub">A LITTLE LIFE, WELL KEPT.</span></span>
+</a>
+@code {
+    [CascadingParameter] public SceneService Scene { get; set; } = default!;
+    [Parameter] public string Href { get; set; } = "/";
+    [Parameter] public string Class { get; set; } = "";
+}

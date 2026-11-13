@@ -1,10 +1,13 @@
-﻿@namespace MyAntDesignApp.Layouts
+@namespace MyAntDesignApp.Layouts
 @inherits LayoutComponentBase
-
-
-@Body
-
- 
- 
-
- 
+@using MyAntDesignApp.CommonService
+@inject SceneService Scene
+@implements IDisposable
+<CascadingValue Value="Scene">
+    @Body
+</CascadingValue>
+@code {
+    protected override void OnInitialized() => Scene.Changed += Refresh;
+    private void Refresh() => _ = InvokeAsync(StateHasChanged);
+    public void Dispose() => Scene.Changed -= Refresh;
+}

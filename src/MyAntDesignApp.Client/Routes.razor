@@ -1,10 +1,4 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
-    <Found Context="routeData">
-        <CascadingValue Value="routeData">
-            <RouteView RouteData="routeData" DefaultLayout="typeof(MyAntDesignApp.Layouts.BasicLayout)" />
-        </CascadingValue>
-        <FocusOnNavigate RouteData="routeData" Selector="h1" />
-    </Found>
+<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData"><RouteView RouteData="routeData" DefaultLayout="typeof(MyAntDesignApp.Layouts.BasicLayout)" /><FocusOnNavigate RouteData="routeData" Selector="h1" /></Found>
+    <NotFound><main class="not-found"><h1>這一頁，還沒有故事。</h1><a href="/FrightDay">回到回憶日曆</a></main></NotFound>
 </Router>
-
-<AntContainer />

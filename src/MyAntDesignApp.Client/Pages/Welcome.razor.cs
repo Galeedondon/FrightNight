@@ -1,107 +1,34 @@
-﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using System.Text.Json;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 using MyAntDesignApp.CommonService;
 using MyAntDesignApp.Models;
-using static MyAntDesignApp.Client.Models.Common;
-using Blazored.LocalStorage;
-
-namespace MyAntDesignApp.Pages.Components
+namespace MyAntDesignApp.Pages.Components;
+public partial class Welcome
 {
-    /// <summary>
-    /// Adds custom Request and Response examples.
-    /// You should install it using the .AddSwaggerExamples() extension method
-    /// </summary>
-    public partial class Welcome
+    [CascadingParameter] public SceneService Scene { get; set; } = default!;
+    [Inject] private ApiVisitService Api { get; set; } = default!;
+    [Inject] private NavigationManager Navigation { get; set; } = default!;
+    private LoginForm form = new(); private string confirmation = "", error = "", success = "";
+    private bool register, busy;
+    private void Switch(bool value) { register = value; error = success = ""; confirmation = ""; }
+    private async Task Submit()
     {
-        [Inject] ApiVisitService ApiVisitService { get; set; }
-        [Inject] IMessageService Message { get; set; }
-        [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
-        [Inject] NavigationManager Navigation { get; set; }
-        [Inject] IJSRuntime JS { get; set; }
-        private AuthRequest model = new AuthRequest();
-        bool loading = true;
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        error = success = "";
+        if (register && form.Password != confirmation) { error = "兩次輸入的密碼不一致。"; return; }
+        busy = true;
+        try
         {
-            if (firstRender)
-            {
-                loading = false;
-                StateHasChanged();
-            }
-
+            if (register) { await Api.Post<object>("Auth/Register", form); register = false; success = "帳號建立成功！請登入，開始記錄。"; form.Password = ""; confirmation = ""; }
+            else { var auth = await Api.Post<Auth>("Auth/Login", form); await Api.SaveProfile(auth); Navigation.NavigateTo("/FrightDay"); }
         }
-        private async void OnFinish()
-        {
-            loading = true;
-            try
-            {
-                var res = await ApiVisitService.QueryCommon<AuthRequest, Auth>("Auth/Login", model);
-                if (res.Result == true)
-                {
-                    await LocalStorage.SetItemAsync("Token", res.Data);
-                    await Message.Success(res.Msg);
-                    Navigation.NavigateTo("/FrightDay");
-                    await JS.InvokeVoidAsync("location.reload"); // 刷新頁面
-                }
-                else
-                {
-                    await Message.Error(res.Msg);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message.ToString());
-                await Message.Error("登入失敗，稍後再試 QQ");
-            }
-            finally
-            {
-                loading = false;
-                StateHasChanged();
-            }
-        }
-
-        private async void Register()
-        {
-            loading = true;
-            try
-            {
-                if(model.Account != model.CheckPassword)
-                {
-                    await Message.Error("兩次密碼不一樣！");
-                    return;
-                }
-                var res = await ApiVisitService.QueryCommon<AuthRequest, Auth>("Auth/Register", model);
-                if (res.Result == true)
-                {
-                    await Message.Success("註冊成功！");
-                }
-                else
-                {
-                    await Message.Error(res.Msg);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message.ToString());
-                await Message.Error("登入失敗，稍後再試 QQ");
-            }
-            finally
-            {
-                loading = false;
-                StateHasChanged();
-            }
-        }
-
-
-        private void OnFinishFailed(EditContext editContext)
-        {
-            Console.WriteLine($"Failed:{JsonSerializer.Serialize(model)}");
-        }
+        catch (Exception ex) { error = ex.Message; }
+        finally { busy = false; }
+    }
+    private class LoginForm
+    {
+        [Required(ErrorMessage = "請輸入帳號。"), RegularExpression(@"^[A-Za-z0-9_-]{3,40}$", ErrorMessage = "使用 3–40 個英文字母、數字、底線或連字號。")]
+        public string Account { get; set; } = "";
+        [Required(ErrorMessage = "請輸入密碼。"), StringLength(128, MinimumLength = 8, ErrorMessage = "密碼需為 8–128 個字元。")]
+        public string Password { get; set; } = "";
     }
 }

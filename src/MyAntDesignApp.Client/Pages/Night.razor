@@ -1,437 +1,86 @@
-﻿@page "/FrightDay"
+@page "/FrightDay"
 @namespace MyAntDesignApp.Pages.Components
-@using System.ComponentModel.DataAnnotations
-@using System.Text.Json
-@using MyAntDesignApp
-@using MyAntDesignApp.Models
-<div style=" width: 100%;
-    height: 100%;
-    position: fixed;">
-<Spin Spinning="initialLoading">
-    
-
-        <div class="@((morning ? "noite-morning" : "noite-night"))"></div>
-
-        <div class="constelacao"></div>
-
-        <div class="@((morning ? "lua-morning" : "lua-night"))">
-            <div class="@((morning ? "textura-morning" : "textura-night"))"></div>
-        </div>
-
-        <div class="chuvaMeteoro"></div>
-
- 
-    <div>
-        <GridRow>
-            <GridCol Span="18" Offset="3" style="height: 100vh;">
-                <GridRow style="height: 75vh;margin-top: 12.5vh;">
-                    <GridCol Span="6" style="@($"background-color: white; height: 75vh; background-image: url('{backgroundImage}');")">
-                        <div class="event-add" @onclick="ShowModal">
-                            <Button Type="ButtonType.Primary" Danger Icon="plus" Shape="ButtonShape.Circle"
-                             Size="ButtonSize.Default" />
-                            <a>Add Event</a>
-                            <h1 style="color: white;"> @selectedValue.ToString("MMMM-dd",
-                                System.Globalization.CultureInfo.InvariantCulture)</h1>
-                        </div>
-                        <div class="imgContainer">
-                            <img class="wave"
-                                src="https://i.pinimg.com/originals/64/91/54/6491542a239217a7d44bfba368cd06c8.png" alt="" />
-                            <img class="wave2"
-                                src="https://i.pinimg.com/originals/64/91/54/6491542a239217a7d44bfba368cd06c8.png" alt="" />
-                            <img class="wave2"
-                                src="https://i.pinimg.com/originals/64/91/54/6491542a239217a7d44bfba368cd06c8.png" alt="" />
-                            <img class="wave"
-                                src="https://i.pinimg.com/originals/64/91/54/6491542a239217a7d44bfba368cd06c8.png" alt="" />
-                            <img class="wave"
-                                src="https://i.pinimg.com/originals/64/91/54/6491542a239217a7d44bfba368cd06c8.png" alt="" />
-                            <img class="bottle" src="@glassImage" alt="" />
-                            <img class="wave delay"
-                                src="https://i.pinimg.com/originals/64/91/54/6491542a239217a7d44bfba368cd06c8.png" alt="" />
-                            <img class="wave delay2"
-                                src="https://i.pinimg.com/originals/64/91/54/6491542a239217a7d44bfba368cd06c8.png" alt="" />
-                        </div>
-                        <div class="event-list">
-                            <AntList DataSource="@memorys" TItem="Data" Class="comment-list">
-                                <ListItem>
-                                    <div @onclick="() => OnShowEvent(context)">
-                                    <Comment Actions="@context.Actions" Avatar="@context.Avatar" Author="@context.Author"
-                                        DatetimeTemplate="@context.Datetime" Content="@context.Content">
-                                    </Comment>
-                                    </div>
-                                </ListItem>
-                            </AntList>
-                        </div>
-                    </GridCol>
-                    <GridCol Span="18" style="background-color: white; height: 75vh; padding:5px;overflow:auto">
-                        <div class="site-calendar-demo-card">
-                            <Calendar FullScreen="@true" DateCellRender="DateCellRender"  
-                                OnSelect="OnSelect" OnPanelChange="OnPanelChange" />
-                            @* <div class="Calendar-Sepc">
-                                <Tooltip Title="spec. day">
-                                    <Button Type="ButtonType.Primary"
-                                        style="border-color: #52c41a !important;background: #52c41a;margin-left: 1.25rem;"
-                                        Shape="ButtonShape.Circle" />
-                                </Tooltip>
-                                <Tooltip Title="spec. day">
-                                    <Button Type="ButtonType.Primary" Danger style="margin-left: 1.25rem;"
-                                        Shape="ButtonShape.Circle" />
-                                </Tooltip>
-                                <Tooltip Title="spec. day">
-                                    <Button Type="ButtonType.Primary"
-                                        style="border-color: #faad14 !important;background: #faad14;  margin-left: 1.25rem;"
-                                        Shape="ButtonShape.Circle" />
-                                </Tooltip>
-                            </div> *@
-                        </div>
-                    </GridCol>
-                </GridRow>
-            </GridCol>
-        </GridRow>
-
-        @{
-            RenderFragment footer = @<Template>
-            <Button OnClick="@HandleOk" @key="@( "submit" )"
-                    Type="ButtonType.Primary"
-                    Loading="@_submitting">
-                Submit
-            </Button>
-            <Button OnClick="@HandleCancel" @key="@( "back" )">Cancel</Button>
-        </Template>;
-        }
-
-        <Modal Title="@("Add Event")" MaxBodyHeight="@("75vh")" Style="top: 12.5vh;width:77%;min-height: 75vh;max-height:75vh" @bind-Visible="@_visible" Footer="@footer" MaskClosable="false">
-            <Form Model="@model" LabelColSpan="1" WrapperColSpan="23" OnFinish="OnFinish"
-                @ref="@_form">
-                <FormItem Label="Title">
-                    <Input  @bind-Value="@context.Title" MaxLength="10" >
-                        <Prefix>
-                            <Icon Type="@IconType.Outline.Star" />
-                        </Prefix>
-                    </Input>
-                </FormItem> 
-                <FormItem Label="Picture">
-                        <Upload Action="http://localhost:5125/Memory/Picture"
-                            Name="avatar"
-                            Class="avatar-uploader"
-                            ListType="UploadListType.PictureCard"
-                            ShowUploadList="false"
-                            OnSingleCompleted="OnSingleCompleted"
-                            BeforeUpload="BeforeUpload"
-                            OnChange="HandleChange">
-                        @if (!string.IsNullOrWhiteSpace(imageUrl))
-                        {
-                            <img src="@imageUrl" alt="avatar" style="width: 100%;max-height:800px" />
-                        }
-                        else
-                        {
-                            <div>
-                                <Icon Spin="loading" Type="@(loading ? IconType.Outline.Loading : IconType.Outline.Plus)" />
-                                <div className="ant-upload-text">Upload</div>
-                            </div>
-                        }
-                    </Upload>
-@*     
-                    <Upload Action="http://localhost:5125/Memory/Picture"
-                            Name="files"
-                            Drag
-                            OnSingleCompleted="OnSingleCompleted" Accept="image/*"  Multiple=false  >
-                        <p class="ant-upload-drag-icon">
-                            <Icon Type="@IconType.Outline.Inbox" />
-                        </p>
-                        <p class="ant-upload-text">Click or drag file to this area to upload</p>
-                        <p class="ant-upload-hint">
-                            Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-                            band files
-                        </p>
-                    </Upload> *@
-                </FormItem>
-                <FormItem Label="Date">
-                    <DatePicker TValue="DateTime"   @bind-Value="@context.MemoryDate" DefaultValue="@selectedValue">
-                    </DatePicker>
-                </FormItem>
-                <FormItem Label="Tag">
-                    <Input  @bind-Value="@context.Tags" >
-                        <Prefix>
-                            <Icon Type="@IconType.Outline.Tag" />
-                        </Prefix>
-                    </Input>
-                </FormItem> 
-                <FormItem Label="Locate">
-                    <Input  @bind-Value="@context.Locate" >
-                        <Prefix>
-                            <Icon Type="@IconType.Outline.Aim" />
-                        </Prefix>
-                    </Input>
-                </FormItem> 
-                @* <div class="ascii-art">
-                    <span> ⠀⠀ ⠀ ⠀               ⠀⠀     ⠀   ⠀⠀⠀⠀⡖⡆⡴⡒⡄</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⡆⣇⠱⡷</span><br>
-                    <span>⠀⠀⠀⠀⣀⣀⡤⠤⠼⢻⣿⡀⣧⣤⣄⠀⢇</span><br>
-                    <span>⢠⣿⣿⣿⣿⡆⠀⠀⠀⠐<span class="squint">⠿⠇⠙⠿</span>⠂⠀⠘⡄</span><br>
-                    <span>⢸⣿⣿⣿⣿⣟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇</span><br>
-                    <span>⠘⢿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⢀⠠⢀⠀⠇</span><br>
-                    <span>⠀⠈⠙⠻⢏⣀⣀⡀⠀⠀⠠⢤⢖⠊⠁⠀⢸</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⠀⣸⠤⣀⣈⣉⣉⢤⣴⡾⠛⠢⡀</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⢰⢱⠀⠀⠉⠉⠉⠉⠀⢰⠇⠀⢁</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⠰⢦⠀⠀⠀⠀⠀⠀⠀⠀⡆⡄⠀⡆</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⠐⢬⠦⣤⣤⢄⣠⣠⣤⢼⡀⠀⡰⠁</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⠀⠈⡆⠈⠻⠿⡭⠁⠀⠀⠩⠉⡇</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⠀⠀⠱⠠⡀⠀⣃⠀⡀⠀⠀⢰⡇</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⠀⠀⠘⠤⠀⠀⠸⠄⣈⣀⣀⣽⠃</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⠀⠀⣤⣶⣤⣤⣤⠂⠀⡄⣤⣤⡆</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⠀⢊⠀⠀⠙⠿⣭⠟⠛⠿⣯⣷⡅</span><br>
-                    <span>⠀⠀⠀⠀⠀⠀⠀⠈⠑⠒⠒⠉⠙⢂⣀⣀⡊⠟</span><br>
-                </div> *@
-            @* <div class="container-wave">
-                    <div id="ocean">
-                        <div id="boat-container">
-                        <div id="boat">
-                            <div id="shadow-right"></div>
-                            <div id="rim-left"></div>
-                            <div id="rim-right"></div>
-                            <div id="luggage-right"></div>
-                            <div id="luggage-right-shadow"></div>
-                            <div id="luggage-left"></div>
-                            <div id="luggage-left-shadow"></div>
-                        </div>
-                        </div>
-
-                        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-                        <defs>
-                            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-                        </defs>
-                        <g class="parallax">
-                            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(155, 220, 251, 0.7" />
-                            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(129, 204, 250,0.5)" />
-                            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(100,200,255,0.8)" />
-                            <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(184, 236, 253, 1)" />
-                        </g>
-                        </svg>
-                    </div>
-                </div> *@
-            </Form>
-        </Modal>
-        
-        @{
-            RenderFragment footer2 = @<Template>
-            <Button OnClick="@HandleCommentCancel" @key="@( "back" )">Cancel</Button>
-        </Template>;
-
-        
-        }
-
-    
-        <Modal Title="@_title" MaxBodyHeight="@("75vh")" Style="top: 12.5vh;width:77%;min-height: 75vh;max-height:75vh" @bind-Visible="@_visibleComment" Footer="@footer2" MaskClosable="false">
-            <GridRow>
-                <GridCol Span="24" style="text-align: center;">
-                    <ImagePreviewGroup>
-                        <Image Width="600" Src="@_imgUrl" />
-                    </ImagePreviewGroup>
-                </GridCol>
-            </GridRow>
-            <div class="tag-colorful-demo" style="padding-top: 20px;">
-                @if(_createDate.DayOfWeek == DayOfWeek.Friday)
+@using MyAntDesignApp.Client.Components
+@using static MyAntDesignApp.Client.Models.responseModel
+<PageTitle>回憶日曆 · Friday Night</PageTitle>
+<div class="app-shell @(dark ? "dark" : "")">
+    <aside class="sidebar">
+        <FnBrand Href="/FrightDay" />
+        <div class="space-label">我的生活空間</div>
+        <nav aria-label="主要導覽"><button class="nav-item @(!listView ? "selected" : "")" @onclick="() => listView = false"><FnIcon Name="calendar" />回憶日曆<span class="nav-dot"></span></button><button class="nav-item @(listView ? "selected" : "")" @onclick="() => listView = true"><FnIcon Name="grid" />本月回憶<span class="count">@items.Count</span></button></nav>
+        <div class="sidebar-divider"></div><div class="space-label">這個月的小小累積</div>
+        <div class="stat-row"><span>收藏的回憶</span><strong>@items.Count<span> 則</span></strong></div><div class="stat-row"><span>有故事的日子</span><strong>@items.Select(x => x.MemoryDate.Date).Distinct().Count()<span> 天</span></strong></div>
+        <div class="sidebar-note"><span class="note-star">✦</span><h3>生活不用很盛大，<br />值得記得就好。</h3><p>留下一點今天，<br />送給未來的自己。</p><div class="note-line"></div><span>COLLECT MOMENTS,<br />NOT THINGS.</span></div>
+        <div class="profile"><FnAvatar Account="@user" /><div><strong>@user</strong><span>每一天，都算數。</span></div><button class="icon-button" @onclick="Logout" aria-label="登出" title="登出"><FnIcon Name="logout" Size="18" /></button></div>
+    </aside>
+    <main class="workspace">
+        <header class="topbar"><div class="breadcrumb"><a class="mobile-brand" href="/FrightDay" aria-label="Friday Night 回憶日曆"><img src="@Scene.Logo" alt="Friday Night 原創 Logo" width="38" height="38" /></a><span class="breadcrumb-root">我的生活空間</span><span class="breadcrumb-separator">/</span> <strong>@(listView ? "本月回憶" : "回憶日曆")</strong></div><div class="top-actions"><span class="mobile-profile"><FnAvatar Account="@user" Small="true" /></span><span class="scene-status"><FnIcon Name="@(Scene.IsNight ? "moon" : "sun")" Size="14" />@Scene.Label</span><span class="today-label">@Scene.LocalDate.ToString("yyyy.MM.dd")</span><button class="scene-auto-button @(themeAutomatic ? "is-auto" : "")" @onclick="FollowDaylight" aria-label="跟隨日夜外觀" aria-pressed="@themeAutomatic" title="依本機時間自動切換：05:00 白天、17:00 夜晚">自動</button><button class="icon-button theme-button" @onclick="ToggleTheme" aria-label="切換明暗主題"><FnIcon Name="@(dark ? "sun" : "moon")" /></button><button class="mobile-logout icon-button" @onclick="Logout" aria-label="登出"><FnIcon Name="logout" /></button></div></header>
+        <div class="page-content">
+            <section class="page-heading"><div><span class="eyebrow">A LITTLE LIFE, WELL KEPT.</span><h1>日子裡的<span>小美好。</span></h1><p>把想記住的時刻，輕輕放進日曆裡。</p></div><button class="primary" @onclick="NewMemory" disabled="@busy"><FnIcon Name="plus" Size="18" />新增回憶</button></section>
+            <section class="month-banner sea-banner @(Scene.IsNight ? "night-banner" : "day-banner")"><FnSeascape Variant="banner" /><div class="month-banner-copy"><span class="banner-kicker">@month.ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture).ToUpper() · @month.Year</span><h2>每一格，都是生活的模樣。</h2><p>@(Scene.IsNight ? "在月光裡，收藏今天的小小閃光。" : "讓日光與海風，陪你收藏每一天。")</p></div></section>
+            @if (!string.IsNullOrEmpty(message)) { <div class="notice @(isError ? "error" : "success")" role="@(isError ? "alert" : "status")"><span>@message</span><button class="icon-button" aria-label="關閉通知" @onclick='() => message = ""'><FnIcon Name="close" Size="16" /></button></div> }
+            <section class="calendar-card" aria-busy="@busy">
+                <div class="calendar-toolbar"><div class="month-navigation"><h2>@month.ToString("yyyy 年 M 月")</h2><div class="month-buttons"><button class="icon-button" aria-label="上個月" @onclick="() => MoveMonth(-1)" disabled="@(busy || month.Year <= 1900)"><FnIcon Name="left" Size="17" /></button><button class="icon-button" aria-label="下個月" @onclick="() => MoveMonth(1)" disabled="@(busy || month.Year >= 2200)"><FnIcon Name="right" Size="17" /></button></div><button class="text-button today-button" @onclick="Today" disabled="@busy">今天</button></div><div class="calendar-tools"><label class="search-box"><FnIcon Name="search" Size="16" /><input aria-label="搜尋本月回憶" placeholder="搜尋本月回憶…" @bind="search" @bind:event="oninput" /></label><div class="segmented view-switch"><button class="@(!listView ? "active" : "")" @onclick="() => listView = false" aria-label="月曆檢視"><FnIcon Name="calendar" Size="17" /></button><button class="@(listView ? "active" : "")" @onclick="() => listView = true" aria-label="列表檢視"><FnIcon Name="grid" Size="17" /></button></div></div></div>
+                @if (busy && items.Count == 0) { <div class="loading-state" role="status"><span class="spinner"></span>正在載入回憶…</div> }
+                else if (listView)
                 {
-                    <Tag Color="TagColor.Gold">@_tags</Tag>
+                    <div class="memory-grid">@foreach (var item in Filtered) { <button class="memory-tile" @onclick="() => OpenMemory(item)" disabled="@busy"><span class="tile-date">@item.MemoryDate.ToString("MM.dd") <span>@Weekday(item.MemoryDate)</span></span><span class="tile-symbol"><FnIcon Name="@(string.IsNullOrEmpty(item.PicKey) ? "heart" : "image")" Size="30" /></span><strong>@item.Title</strong><span class="tile-meta">@item.CreateAt @(!string.IsNullOrWhiteSpace(item.Locate) ? " · " + item.Locate : "")</span><span class="tile-tags">@item.Tags</span></button> }</div>
+                    @if (!Filtered.Any()) { <div class="empty-list"><FnIcon Name="image" Size="35" /><h3>@(search.Length > 0 ? "沒有符合的回憶" : "這個月的故事，等你開始。")</h3><p>@(search.Length > 0 ? "試試其他標題、地點或標籤。" : "從一個小小的瞬間，開始記錄。")</p></div> }
                 }
                 else
                 {
-                    <Tag Color="TagColor.Blue">@_tags</Tag>
-                }
- 
-                @* <Tag Color="TagColor.Volcano">volcano</Tag> *@
-            </div>
-            @if (comments.Count > 0)
-            {
-                <AntList DataSource="@comments" TItem="Data" Header="header" Class="comment-list">
-                    <ListItem>
-                        <Comment Actions="@context.Actions" Avatar="@context.Avatar" Author="@context.Author" DatetimeTemplate="@context.Datetime" Content="@context.Content">
-                             
-                            @foreach(var reply in context.DetailData)
-                            {
-                                <Comment Avatar="@reply.Avatar" Author="@reply.Author"  DatetimeTemplate="@reply.Datetime" Content="@reply.Content" >
-                                </Comment>
-                            }
-                        </Comment>
-                    </ListItem>
-                </AntList>
-            }
-            <Comment Avatar="@($"/img/avatar/{userId}.png")">
-                <ContentTemplate>
-                    <div>
-                        <TextArea MinRows="4" @bind-Value="@_value" />
-                        <br/>
-                        <br/>
-                        <Button Loading="@submitting" OnClick="onSubmit" Type="ButtonType.Primary">
-                            Add Comment
-                        </Button>
+                    <div class="calendar-weekdays">@foreach (var day in weekdays) { <span>@day</span> }</div>
+                    <div class="calendar-grid" role="group" aria-label="@month.ToString("yyyy 年 M 月")">
+                    @foreach (var date in CalendarDays)
+                    {
+                        var dayItems = Filtered.Where(x => x.MemoryDate.Date == date).ToList();
+                        <div class="calendar-cell @(date.Month != month.Month ? "outside" : "") @(date == selected ? "day-selected" : "") @(date == Scene.LocalDate ? "is-today" : "")">
+                            <button class="day-number" @onclick="() => SelectDate(date)" disabled="@busy" aria-label="@date.ToString("yyyy 年 M 月 d 日")" aria-pressed="@(date == selected)">@date.Day</button>
+                            <div class="day-events">@foreach (var item in dayItems.Take(2)) { <button class="calendar-event @(item.CreateAt == user ? "own-event" : "")" title="@item.Title" @onclick="() => OpenMemory(item)" disabled="@busy"><span></span>@item.Title</button> } @if (dayItems.Count > 2) { <button class="more-events" @onclick="() => SelectDate(date)">還有 @(dayItems.Count - 2) 則</button> }</div>
+                            @if (date == Scene.LocalDate) { <span class="today-cell-label">TODAY</span> }
+                        </div>
+                    }
                     </div>
-                </ContentTemplate>
-            </Comment>
-            
-        </Modal>
-    </div>
-</Spin>
-
-
-<Modal Title="@_commentModal"
-        @bind-Visible="@_commentVisible"
-        OkText="@_commentModalOK"
-        CancelText="@("Cancel")"
-        OnOk="CommentOk"
-        OnCancel="CommentCancel"
-        >
-    @if(_commentModalOK =="Edit")
-    {
-        <Input Placeholder="Basic usage" @bind-Value="@_commentEdit"  />
-    }
-    else
-    {
-        @("你忍心刪除留言嗎 QQQ");
-    }
-</Modal>
- 
- @if(morning)
-{
-    <script src="/js/cloud.js"></script>
-}
-else
-{
-    <script src="/js/start.js"></script>
-}
-
-
-<style>
-    .ant-comment-content-author {
-    width: 100%;
-    display: flex;
-    justify-content: space-between; /* 使兩個元素之間的空間自動分配 */
-    align-items: center; /* 垂直居中對齊 */
-    }
-
-    .ant-comment-content-author-time {
-    flex-grow: 1; /* 使時間元素佔用剩餘空間 */
-    }
-
-    .ant-comment {
-    width: 100%;
-    }
-
-    .ant-upload.ant-upload-select-picture-card {
-    width: 1200px;
-    height: 800px;
-    }
-
-    .estrela 
-    {
-        background-color: white;
-        border-radius: 50%;
-        position: absolute;
-        animation-name: estrela;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
-    }
-
-    .estrela.style1 {
-    animation-duration: 0.5s;
-    animation-name: estrela;
-    }
-    .estrela.style2 {
-    animation-duration: 1s;
-    animation-name: estrela;
-    }
-    .estrela.style3 {
-    animation-duration: 1.5s;
-    animation-name: estrela;
-    }
-    .estrela.style4 {
-    animation-duration: 2s;
-    animation-name: estrelaDestacada;
-    }
-
-    .estrela.tam1 {
-    width: 1px;
-    height: 1px;
-    }
-    .estrela.tam2 {
-    width: 2px;
-    height: 2px;
-    }
-    .estrela.tam3 {
-    width: 3px;
-    height: 3px;
-    }
-
-    .estrela.opacity1 {
-    opacity: 1;
-    }
-    .estrela.opacity2 {
-    opacity: 0.5;
-    }
-    .estrela.opacity3 {
-    opacity: 0.1;
-    }
-    .selected-reply {
-        background-color: rgba(70, 130, 180, 0.2) !important; /* 強制生效 */
-        color: #007bff !important; /* 強制變藍 */
-        font-weight: bold;
-        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
-        border-radius: 5px;
-    }
-
-    .estrela-sun {
-        background-color: white;
-        border-radius: 50%;
-        position: absolute;
-        animation-name: estrela;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
-    }
-
-    .estrela-sun.style1 {
-        animation-duration: 0.5s;
-        animation-name: estrela;
-    }
-    .estrela-sun.style2 {
-        animation-duration: 1s;
-        animation-name: estrela;
-    }
-    .estrela-sun.style3 {
-        animation-duration: 1.5s;
-        animation-name: estrela;
-    }
-    .estrela-sun.style4 {
-        animation-duration: 2s;
-        animation-name: estrela;
-    }
-
-    .estrela-sun.tam1 {
-        width: 1px;
-        height: 1px;
-    }
-    .estrela-sun.tam2 {
-        background: #ffffff;
-        border-radius: 50%;
-        box-shadow: 30px 10px 0px 0px #ffffff,
-            /* 原来是 15px 5px */ -30px 10px 0px 0px #ffffff,
-            /* 原来是 -15px 5px */ 10px -20px 0px 0px #ffffff,
-            /* 原来是 5px -10px */ 50px -10px 0px 0px #ffffff; /* 原来是 25px -5px */
-        width: 120px;
-        height: 80px;
-    }
-    .estrela-sun.tam3 {
-        width: 3px;
-        height: 3px;
-    }
-
-    .estrela-sun.opacity1 {
-        opacity: 1;
-    }
-    .estrela-sun.opacity2 {
-        opacity: 0.5;
-    }
-    .estrela-sun.opacity3 {
-        opacity: 0.1;
-    }
-</style>
+                }
+                <footer class="calendar-footer"><span><i class="legend-dot"></i>我的回憶 <i class="legend-dot shared"></i>朋友的回憶</span><span>@Filtered.Count() 則回憶，在這個月閃閃發光。</span></footer>
+            </section>
+            <section class="day-section"><div class="day-heading"><div><span class="eyebrow">A CLOSER LOOK AT YOUR DAY</span><h2>@selected.ToString("M 月 d 日") <span>@Weekday(selected)</span></h2></div><button class="text-button" @onclick="NewMemory" disabled="@busy"><FnIcon Name="plus" Size="16" />為這天加一筆</button></div>
+                @if (!SelectedItems.Any()) { <div class="day-empty"><span class="empty-icon"><FnIcon Name="image" Size="25" /></span><div><strong>@(search.Length > 0 ? "這天沒有符合搜尋的回憶。" : "這一天，還有空白等你填滿。")</strong><p>一頓好吃的晚餐，或一次久違的相聚，都可以。</p></div><button class="text-button" @onclick="NewMemory" disabled="@busy">記下一刻 <FnIcon Name="right" Size="16" /></button></div> }
+                else { <div class="day-memory-list">@foreach (var item in SelectedItems) { <button class="day-memory" @onclick="() => OpenMemory(item)" disabled="@busy"><FnAvatar Account="@item.CreateAt" /><div><strong>@item.Title</strong><span>@item.CreateAt · @item.Locate @item.Tags</span></div><FnIcon Name="right" Size="18" /></button> }</div> }
+            </section>
+            <footer class="page-footer"><span>FRIDAY NIGHT MEMORY</span><span>一點一點，拼成我們的生活。</span><FnIcon Name="heart" Size="14" /></footer>
+        </div>
+    </main>
 </div>
+@if (editorOpen)
+{
+    <FnDialog Title="@(editing.Id == 0 ? "收藏一個新時刻" : "編輯這段回憶")" Class="@(dark ? "dark" : "")" OnClose="CloseEditor">
+        <EditForm Model="editing" OnValidSubmit="SaveMemory" FormName="memory"><DataAnnotationsValidator /><div class="dialog-body">
+            @if (!string.IsNullOrEmpty(dialogError)) { <div class="notice error" role="alert">@dialogError</div> }
+            <label for="memory-title">回憶標題</label><InputText id="memory-title" @bind-Value="editing.Title" placeholder="今天，想記住什麼？" maxlength="100" disabled="@saving" /><ValidationMessage For="() => editing.Title" />
+            <div class="form-row"><div><label for="memory-date">日期</label><InputDate id="memory-date" @bind-Value="editing.MemoryDate" min="1900-01-01" max="2200-12-31" disabled="@saving" /></div><div><label for="memory-location">地點 <span>選填</span></label><InputText id="memory-location" @bind-Value="editing.Locate" placeholder="故事發生在哪裡？" maxlength="200" disabled="@saving" /></div></div>
+            <label for="memory-tags">標籤 <span>選填</span></label><InputText id="memory-tags" @bind-Value="editing.Tags" placeholder="例如：旅行、朋友、小日常" maxlength="200" disabled="@saving" />
+            <label>照片 <span>選填 · JPG / PNG / WebP，最大 2 MB</span></label><label class="upload-area" for="memory-picture">@if (!string.IsNullOrEmpty(preview)) { <img src="@preview" alt="回憶照片預覽" /> } else { <FnIcon Name="image" Size="30" /><strong>替回憶放上一張照片</strong><span>點此選擇圖片</span> }<InputFile id="memory-picture" OnChange="ChoosePicture" accept="image/jpeg,image/png,image/webp" disabled="@saving" /></label>
+            @if (!string.IsNullOrEmpty(preview)) { <button type="button" class="text-button" @onclick="RemovePicture" disabled="@saving">移除照片</button> }
+        </div><footer class="dialog-footer"><button type="button" class="secondary" @onclick="CloseEditor" disabled="@saving">取消</button><button type="submit" class="primary" disabled="@saving"><FnIcon Name="check" Size="18" />@(saving ? "儲存中…" : "儲存這段回憶")</button></footer></EditForm>
+    </FnDialog>
+}
+@if (opened != null)
+{
+    <FnDialog Title="@opened.Title" Class="@(dark ? "detail-dialog dark" : "detail-dialog")" OnClose="CloseDetail"><div class="dialog-body">
+        @if (!string.IsNullOrEmpty(dialogError)) { <div class="notice error" role="alert">@dialogError</div> }
+        <div class="detail-meta"><FnAvatar Account="@opened.CreateAt" /><strong>@opened.CreateAt</strong><span>@opened.MemoryDate.ToString("yyyy.MM.dd")</span>@if (opened.CreateAt == user) { <button class="icon-button" aria-label="編輯回憶" @onclick="EditOpened" disabled="@saving"><FnIcon Name="edit" Size="17" /></button><button class="icon-button danger-text" aria-label="刪除回憶" @onclick="() => deleteMemory = true" disabled="@saving"><FnIcon Name="trash" Size="17" /></button> }</div>
+        @if (deleteMemory) { <div class="delete-confirm" role="alert"><strong>確定刪除這段回憶？</strong><p>它將從日曆中隱藏，相關留言也不再顯示。</p><button class="secondary" @onclick="() => deleteMemory = false" disabled="@saving">保留回憶</button><button class="danger" @onclick="DeleteOpened" disabled="@saving">確定刪除</button></div> }
+        @if (!string.IsNullOrEmpty(detailImage)) { <img class="detail-image" src="@detailImage" alt="@opened.Title" /> }
+        <div class="detail-tags">@if (!string.IsNullOrWhiteSpace(opened.Locate)) { <span><FnIcon Name="pin" Size="15" />@opened.Locate</span> } @if (!string.IsNullOrWhiteSpace(opened.Tags)) { <span># @opened.Tags</span> }</div>
+        <div class="comments-heading"><h3>在回憶裡聊聊</h3><span>@comments.Count 則留言</span></div>
+        @if (comments.Count == 0) { <p class="muted">還沒有留言。來分享你的心情吧。</p> }
+        @foreach (var comment in comments.Where(x => x.ReplyId == null))
+        {
+            <div class="comment"><FnAvatar Account="@comment.CreateAt" Small="true" /><div class="comment-main"><div class="comment-meta"><strong>@comment.CreateAt</strong><time>@comment.CreateDate.ToLocalTime().ToString("MM/dd HH:mm")</time></div><p>@comment.Comment</p><div class="comment-actions"><button @onclick="() => ReplyTo(comment)" disabled="@saving">回覆</button>@if (comment.CreateAt == user) { <button @onclick="() => EditComment(comment)" disabled="@saving">編輯</button><button @onclick="() => pendingDeleteComment = comment.Id" disabled="@saving">刪除</button> }</div></div></div>
+            @foreach (var reply in comments.Where(x => x.ReplyId == comment.Id)) { <div class="comment reply"><FnAvatar Account="@reply.CreateAt" Small="true" /><div class="comment-main"><div class="comment-meta"><strong>@reply.CreateAt</strong><time>@reply.CreateDate.ToLocalTime().ToString("MM/dd HH:mm")</time></div><p>@reply.Comment</p>@if (reply.CreateAt == user) { <div class="comment-actions"><button @onclick="() => EditComment(reply)" disabled="@saving">編輯</button><button @onclick="() => pendingDeleteComment = reply.Id" disabled="@saving">刪除</button></div> }</div></div> }
+        }
+        @if (pendingDeleteComment != null) { <div class="delete-confirm"><p>確定刪除此留言？主留言下的回覆也會隱藏。</p><button class="secondary" @onclick="() => pendingDeleteComment = null" disabled="@saving">取消</button><button class="danger" @onclick="DeleteComment" disabled="@saving">刪除留言</button></div> }
+        <form @onsubmit="SaveComment" @onsubmit:preventDefault="true" class="comment-form">@if (replyTo != null || editingComment != null) { <div class="reply-context"><span>@(editingComment != null ? "編輯留言" : "回覆 " + replyTo?.CreateAt)</span><button type="button" class="icon-button" aria-label="取消編輯或回覆" @onclick="ResetComment"><FnIcon Name="close" Size="15" /></button></div> }<label for="comment-input" class="sr-only">留言內容</label><textarea id="comment-input" @bind="commentText" placeholder="留下一點心情…" maxlength="4000" required rows="3" disabled="@saving"></textarea><button class="primary" type="submit" disabled="@saving">@(saving ? "傳送中…" : editingComment != null ? "儲存留言" : "送出留言")<FnIcon Name="right" Size="16" /></button></form>
+    </div></FnDialog>
+}

@@ -1,0 +1,179 @@
+/* FN's original artwork remains intact. Scenery follows browser-local time. */
+.brand-original-logo {
+  display: block;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 5px #2d34521a);
+}
+.brand { gap: 8px; }
+.sidebar .brand { margin: -8px -3px 34px; font-size: 18px; }
+.sidebar .brand-original-logo { width: 56px; height: 56px; }
+.sidebar .brand-sub { font-size: 6px; letter-spacing: .9px; }
+.welcome-brand .brand-original-logo { width: 72px; height: 72px; }
+.welcome-brand { font-size: 22px; }
+.welcome-grid { margin-top: 38px; gap: 85px; }
+.welcome-story h1 { font-size: clamp(42px, 4.2vw, 58px); }
+.welcome-story > p { margin-top: 17px; }
+.portrait-avatar { position: relative; overflow: hidden; background: #f7f3ec; border: 1px solid #ded5e6; }
+.portrait-avatar img { position: absolute; left: 50%; top: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); }
+.portrait-avatar.original-portrait img { width: 174%; height: 174%; object-fit: contain; }
+.portrait-avatar.small { width: 32px; height: 32px; }
+.profile > .portrait-avatar { width: 41px; height: 41px; }
+.dark .portrait-avatar { background: #e8e1d9; border-color: #675577; }
+.scene-status { display: inline-flex; align-items: center; gap: 7px; font-size: 10px; color: #81728e; white-space: nowrap; }
+.scene-auto-button { border: 1px solid #ded5e8; border-radius: 7px; padding: 5px 8px; background: transparent; color: #91849e; font-size: 10px; }
+.scene-auto-button.is-auto { color: #7f63a4; background: #eae3f4; border-color: transparent; }
+.top-actions { gap: 13px; }
+.dark .scene-status { color: #c3b1d2; }
+.dark .scene-auto-button { color: #c4afd6; border-color: #5c486b; }
+.dark .scene-auto-button.is-auto { background: #483556; color: #e0c9f0; }
+/* A bounded illustrated window, rather than a moving full-screen background. */
+.seascape { --sky-top: #f9e9d6; --sky-bottom: #d2e8e9; --water: #87b8cc; --wave-back: #9dc8d9; --wave-front: #b2d8e1; position: relative; overflow: hidden; isolation: isolate; background: linear-gradient(165deg, var(--sky-top), var(--sky-bottom) 63%); }
+.seascape-welcome { height: 266px; width: 100%; max-width: 470px; border-radius: 20px; margin: 25px 0 17px; border: 1px solid #ffffff90; box-shadow: 0 9px 30px #596b8310; }
+.sea-night { --sky-top: #24233e; --sky-bottom: #575176; --water: #474d76; --wave-back: #62678f; --wave-front: #7a80a1; }
+.sea-grain { position: absolute; inset: 0; opacity: .19; background-image: radial-gradient(#ffffff95 .55px, transparent .55px); background-size: 4px 4px; z-index: 6; pointer-events: none; }
+/* SVG silhouettes keep the moon transparent and the clouds seamless at every size. */
+.sky-orb { position: absolute; right: 34%; top: 27px; width: 54px; aspect-ratio: 1; color: #fff4d7; }
+.sky-orb svg { display: block; width: 100%; height: 100%; overflow: visible; fill: currentColor; }
+.sea-day .sky-orb { filter: drop-shadow(0 0 17px #fff0cba6); }
+.sea-night .sky-orb { color: #f5eddd; filter: drop-shadow(0 0 12px #e1d9fb33); }
+.sky-cloud { position: absolute; width: 96px; aspect-ratio: 120 / 54; color: #fff; opacity: .72; animation: cloud-drift 24s ease-in-out infinite alternate; }
+.sky-cloud svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+.cloud-one { left: 8%; top: 49px; }
+.cloud-two { right: 16px; top: 86px; width: 76px; animation-delay: -11s; opacity: .58; }
+.cloud-three { left: 32%; top: 98px; width: 48px; opacity: .45; animation-delay: -7s; }
+.sky-stars { position: absolute; inset: 0; }
+.sky-stars i { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #eee9fa; opacity: .6; box-shadow: 0 0 5px #e4dbff7a; animation: star-glow 5s ease-in-out infinite alternate; animation-delay: var(--delay); }
+.sky-stars i:nth-child(4n) { width: 3px; height: 3px; }
+.shooting-star { position: absolute; left: 55%; top: 23%; height: 1px; width: 65px; transform: rotate(-24deg); background: linear-gradient(90deg, transparent, #f7f1ff); opacity: 0; animation: meteor-pass 24s ease-in infinite; }
+.sea-horizon { position: absolute; top: 58%; bottom: 0; width: 100%; background: linear-gradient(var(--water), var(--wave-back)); }
+.sea-reflection { position: absolute; top: 58%; left: calc(66% - 74px); width: 95px; height: 42%; transform: skew(-16deg); background: linear-gradient(#fff3d36b, #ffffff05); clip-path: polygon(36% 0, 64% 0, 100% 100%, 0 100%); filter: blur(3px); }
+.sea-night .sea-reflection { background: linear-gradient(#d6d0f06b, #b7afe805); }
+.sea-wave { position: absolute; width: 135%; height: 52%; left: -17%; border-radius: 50% 48% 0 0 / 26% 34% 0 0; }
+.wave-back { bottom: -22%; background: var(--wave-back); transform: rotate(-5deg); z-index: 2; }
+.wave-front { bottom: -37%; background: var(--wave-front); transform: rotate(4deg); z-index: 4; opacity: .8; }
+.drifting-bottle { position: absolute; right: -24px; bottom: -71px; width: 390px; height: 356px; z-index: 3; animation: bottle-float 6s ease-in-out infinite; transform-origin: 55% 65%; pointer-events: none; }
+.drifting-bottle img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(4px 11px 10px #253d5926); }
+.sea-night .drifting-bottle img { filter: drop-shadow(3px 7px 12px #11172e60); }
+.sea-caption { position: absolute; bottom: 29px; left: 23px; z-index: 5; color: #325e72; }
+.sea-caption > span { font-size: 7px; letter-spacing: 1.5px; display: block; margin-bottom: 8px; }
+.sea-caption strong { font-size: 12px; font-weight: 550; letter-spacing: -.3px; display: block; max-width: 180px; line-height: 1.7; }
+.sea-night .sea-caption { color: #f1eafa; }
+.sea-time-label { position: absolute; top: 17px; left: 18px; font-size: 9px; color: #63747e; display: flex; gap: 5px; align-items: center; z-index: 5; }
+.sea-night .sea-time-label { color: #c9bedf; }
+.sea-banner { padding: 0; background: transparent; border: 1px solid #ffffff70; }
+.seascape-banner { position: absolute; inset: 0; }
+.seascape-banner .sky-orb { right: 180px; top: 16px; width: 42px; }
+.seascape-banner .cloud-one { left: auto; right: 258px; top: 57px; width: 64px; }
+.seascape-banner .cloud-two { left: auto; right: 270px; top: 19px; width: 40px; }
+.seascape-banner .cloud-three { display: none; }
+.seascape-banner .drifting-bottle { width: 262px; height: 240px; right: -12px; bottom: -57px; }
+.seascape-banner .sea-horizon { top: 70%; }
+.seascape-banner .sea-wave { width: 110%; height: 40%; left: 0; }
+.seascape-banner .wave-back { bottom: -22%; }
+.seascape-banner .wave-front { bottom: -30%; }
+.seascape-banner .sea-reflection { left: calc(100% - 246px); width: 90px; top: 70%; }
+.month-banner-copy { position: relative; z-index: 7; height: 100%; padding: 26px 30px; max-width: calc(100% - 200px); }
+.day-banner .month-banner-copy h2 { color: #425f75; }
+.day-banner .month-banner-copy p { color: #61758b; }
+.day-banner .banner-kicker { color: #6c7d89; }
+.night-banner .month-banner-copy h2 { color: #ede5f6; }
+.night-banner .month-banner-copy p { color: #cec1df; }
+.night-banner .banner-kicker { color: #c7b9df; }
+/* Login also follows the sky, with readable opaque form fields over a soft glass card. */
+.night-welcome { --bg: #20202d; --surface: #302c3c; --ink: #f0eaf7; --muted: #c1afcf; --soft: #3d344c; --line: #51435f; --purple: #a28ac4; color: var(--ink); background: radial-gradient(ellipse at 15% 45%, #3c365455, transparent 60%), #20202d; }
+body:has(.night-welcome) { background: #20202d; }
+.night-welcome .brand-sub, .night-welcome .eyebrow { color: #b7a4cb; }
+.night-welcome .welcome-story h1 > span { color: #ba9cd9; }
+.night-welcome .welcome-story > p, .night-welcome .story-foot { color: #b7a7c5; }
+.night-welcome .auth-card { background: #302c3ce0; border-color: #66527366; box-shadow: 0 22px 70px #08071024; }
+.night-welcome .auth-card > p, .night-welcome .auth-card label, .night-welcome .auth-bottom { color: #c2b1d1; }
+.night-welcome .auth-card input { background: #252331; color: #f0eaf7; border-color: #5b496a; }
+.night-welcome .auth-card input::placeholder { color: #a894ba; }
+.night-welcome .auth-submit { background: #a28ac4; color: #fff; }
+.night-welcome .auth-tabs button { color: #b8a6ca; }
+.night-welcome .auth-tabs button.active { color: #e9daf5; background: #554262; }
+.night-welcome .welcome-footer { color: #a58db9; }
+.night-welcome .seascape-welcome { border-color: #8372994d; box-shadow: 0 16px 35px #09081420; }
+@keyframes bottle-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-5px) rotate(1deg); } }
+@keyframes cloud-drift { from { translate: -5px 0; } to { translate: 7px 0; } }
+@keyframes star-glow { from { opacity: .25; } to { opacity: .8; } }
+@keyframes meteor-pass { 0%, 89% { opacity: 0; translate: 0 0; } 90% { opacity: .65; translate: 0 0; } 94%, 100% { opacity: 0; translate: -130px 65px; } }
+@media (max-width: 1200px) {
+  .sidebar .brand { gap: 4px; font-size: 16px; margin-left: -5px; margin-right: -6px; }
+  .sidebar .brand-original-logo { width: 48px; height: 48px; }
+  .sidebar .brand-sub { font-size: 5px; }
+  .scene-status { font-size: 9px; }
+  .top-actions { gap: 8px; }
+  .welcome-grid { gap: 50px; }
+}
+@media (max-width: 1000px) {
+  .scene-status { display: none; }
+  .seascape-banner .sky-orb { right: 145px; }
+  .seascape-banner .cloud-one { right: 14px; top: 25px; width: 48px; }
+  .seascape-banner .cloud-two { display: none; }
+  .seascape-banner .sea-reflection { left: calc(100% - 211px); }
+  .month-banner-copy { padding: 24px; max-width: calc(100% - 145px); }
+  .month-banner-copy h2 { font-size: 16px; }
+  .month-banner-copy p { line-height: 1.7; font-size: 11px; }
+  .seascape-banner .drifting-bottle { width: 226px; height: 207px; right: -28px; bottom: -42px; }
+  .welcome-grid { gap: 32px; }
+  .drifting-bottle { right: -50px; }
+  .sea-caption strong { font-size: 11px; max-width: 145px; }
+}
+@media (max-width: 760px) {
+  .welcome-page { padding-top: 20px; }
+  .welcome-brand .brand-original-logo { width: 60px; height: 60px; }
+  .welcome-brand { font-size: 20px; }
+  .welcome-grid { margin: 25px auto 40px; gap: 25px; }
+  .welcome-story h1 { font-size: 37px; }
+  .welcome-story > p { font-size: 12px; margin-top: 14px; }
+  .welcome-story > .eyebrow { font-size: 9px; }
+  .seascape-welcome { height: 205px; margin-top: 20px; margin-bottom: 14px; border-radius: 16px; }
+  .drifting-bottle { width: 315px; height: 288px; right: -33px; bottom: -62px; }
+  .sea-caption { bottom: 22px; left: 20px; }
+  .sea-caption strong { font-size: 11px; max-width: 145px; }
+  .sea-time-label { font-size: 8px; }
+  .sky-orb { top: 25px; right: 20%; width: 43px; }
+  .sea-reflection { left: calc(80% - 69px); }
+  .cloud-one { top: 48px; left: 6%; width: 72px; }
+  .cloud-two { top: 79px; right: 15px; width: 58px; }
+  .cloud-three { top: 90px; left: 31%; width: 39px; }
+  .story-foot { margin-top: 12px; font-size: 10px; }
+  .month-banner-copy { padding: 20px; max-width: calc(100% - 120px); }
+  .month-banner-copy h2 { font-size: 15px; line-height: 1.5; margin-top: 9px; }
+  .month-banner-copy p { font-size: 10px; line-height: 1.6; margin-top: 5px; }
+  .month-banner-copy .banner-kicker { font-size: 8px; }
+  .seascape-banner .drifting-bottle { width: 215px; height: 197px; right: -30px; bottom: -40px; }
+  .seascape-banner .sky-orb { right: 130px; width: 28px; top: 17px; }
+  .seascape-banner .sea-reflection { left: calc(100% - 189px); }
+  .top-actions { gap: 7px; }
+  .topbar .today-label { display: none; }
+  .scene-auto-button { min-height: 32px; min-width: 37px; }
+}
+@media (max-width: 440px) {
+  .sea-banner { height: 160px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drifting-bottle, .sky-cloud, .sky-stars i, .shooting-star { animation: none !important; }
+  .shooting-star { display: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .night-welcome .auth-card { background: #302c3c; }
+}
+@media (prefers-contrast: more) {
+  .sea-caption, .sea-time-label { text-shadow: 0 1px 3px #fff; }
+  .sea-night .sea-caption, .sea-night .sea-time-label { text-shadow: 0 1px 3px #171322; }
+}
+
+.mobile-brand, .mobile-profile { display: none; }
+@media (max-width: 760px) {
+  .mobile-brand { display: inline-flex; align-items: center; }
+  .mobile-brand img { object-fit: contain; }
+  .mobile-profile { display: inline-flex; }
+  .breadcrumb-root, .breadcrumb-separator { display: none; }
+  .breadcrumb { gap: 6px; }
+  .topbar { padding-left: 11px; padding-right: 14px; }
+}

@@ -1,3 +1,1 @@
-﻿global using MyAntDesignApp.Client.Resources;
-
-global using AntDesign;
+// Framework imports are declared in _Imports.razor.
