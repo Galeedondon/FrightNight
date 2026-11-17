@@ -1,9 +1,11 @@
 using MyAntDesignApp.Components;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents().AddInteractiveWebAssemblyComponents();
+builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 var app = builder.Build();
 if (!app.Environment.IsDevelopment()) app.UseExceptionHandler("/Error");
 app.UseStaticFiles(); app.UseAntiforgery();
 app.MapStaticAssets();
+app.MapReverseProxy();
 app.MapRazorComponents<App>().AddInteractiveWebAssemblyRenderMode().AddAdditionalAssemblies(typeof(MyAntDesignApp.Client._Imports).Assembly);
 app.Run();

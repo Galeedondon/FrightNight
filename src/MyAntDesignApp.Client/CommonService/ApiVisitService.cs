@@ -12,7 +12,7 @@ public sealed class ApiClientException(string message, HttpStatusCode status) : 
 }
 public class ApiVisitService(HttpClient http, IConfiguration config, ILocalStorageService storage)
 {
-    private readonly string baseUrl = (config["ExperienceAPI:FrightNightApi:Url"] ?? "http://localhost:5189").TrimEnd('/');
+    private readonly string baseUrl = (config["ExperienceAPI:FrightNightApi:Url"] ?? "/api").TrimEnd('/');
     public ValueTask<Auth?> GetProfile() => storage.GetItemAsync<Auth>("Token");
     public ValueTask SaveProfile(Auth auth) => storage.SetItemAsync("Token", auth);
     public ValueTask SignOut() => storage.RemoveItemAsync("Token");

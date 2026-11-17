@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\MyAntDesignApp.Client.props" />
-</Project>

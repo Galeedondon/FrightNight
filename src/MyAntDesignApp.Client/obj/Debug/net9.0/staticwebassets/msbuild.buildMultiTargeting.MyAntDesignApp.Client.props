@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\MyAntDesignApp.Client.props" />
-</Project>

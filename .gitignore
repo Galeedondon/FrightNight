@@ -2,3 +2,7 @@
 **/obj/
 .env
 *.user
+.local/
+.env.*
+!.env.example
+*.log
